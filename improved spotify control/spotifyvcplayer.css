@@ -1,0 +1,473 @@
+/**
+made by?? 
+@coderpixel
+:P
+*/
+
+:root {
+  --isc-bg: var(--bg-4, var(--background-base-low));
+  --isc-bg-blur: 2px;
+  --isc-bg-brightness: 0.5;
+
+  --ics-full-album-art: true;
+
+  --ics-panel-order-activity: 2;
+  --ics-panel-order-spotify: 1;
+  --ics-panel-order-voicechat: 3;
+  --ics-panel-order-user: 4;
+
+  --isc-song-title: var(--accent-4, var(--text-strong));
+  --isc-icon-color: var(--text-1, var(--text-default));
+
+  --isc-progress-bar: var(--accent-2, hsl(141, 41%, 45%));
+  --isc-progress-bar-hover: var(--accent-2, hsl(141, 41%, 65%));
+
+  --isc-button-icon: var(--text-4, var(--text-default));
+  --isc-button-icon-hover: var(--text-1, var(--text-strong));
+  --isc-button-bg: transparent;
+  --isc-button-bg-hover: var(--hover, var(--background-mod-strong));
+
+  --isc-button-toggled-icon: var(--accent-4, hsl(141, 41%, 45%));
+  --isc-button-toggled-icon-hover: var(--accent-4, hsl(141, 41%, 65%));
+  --isc-button-bg-base: var(--accent-new, hsl(141, 41%, 45%));
+  --isc-button-toggled-bg: color-mix(in hsl, var(--isc-button-bg-base), transparent 90%);
+  --isc-button-toggled-bg-hover: color-mix(in hsl, var(--isc-button-bg-base), transparent 80%);
+
+  --isc-player-lift: -6px;
+  --isc-player-height: clamp(245px, 88cqw, 355px);
+  --isc-button-size: 32px;
+  --isc-button-icon-size: 22px;
+}
+
+/* fallback if color-mix is not supported */
+@supports not (background: color-mix(in hsl, white, transparent 50%)) {
+  :root {
+    --isc-button-toggled-bg: rgba(29, 185, 84, 0.1);
+    --isc-button-toggled-bg-hover: rgba(29, 185, 84, 0.2);
+  }
+}
+
+body {
+  container-name: body;
+}
+
+:is(section.panels__5e434, section[class*="panels_"]) {
+  container-name: isc-sidebar;
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+}
+
+/* cover art background */
+
+#vc-spotify-info-wrapper > img,
+#vc-spotify-player:not(:has(#vc-spotify-album-expanded-wrapper)):hover #vc-spotify-album-image {
+  display: none !important;
+}
+
+#vc-spotify-player {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  border-radius: inherit;
+  box-sizing: border-box !important;
+
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+
+  height: var(--isc-player-height) !important;
+  min-height: 245px !important;
+  max-height: 355px !important;
+
+  background-color: var(--isc-bg);
+  transform: translate3d(0, var(--isc-player-lift), 0);
+  animation: isc-spotify-fade-in 0.32s ease-out both;
+
+  contain: layout paint;
+  backface-visibility: hidden;
+}
+
+@keyframes isc-spotify-fade-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--isc-player-lift) + 10px), 0) scale(0.985);
+    filter: saturate(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, var(--isc-player-lift), 0) scale(1);
+    filter: saturate(1);
+  }
+}
+
+#vc-spotify-player::before,
+#vc-spotify-player::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+#vc-spotify-player::before {
+  background-image: var(--vc-spotify-track-image);
+  background-position: center;
+  background-size: cover;
+  filter: blur(var(--isc-bg-blur)) brightness(var(--isc-bg-brightness, 1));
+  transform: translateZ(0) scale(1.04);
+  backface-visibility: hidden;
+}
+
+#vc-spotify-player::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.08) 45%,
+    rgba(0, 0, 0, 0.48) 76%,
+    var(--isc-bg) 100%
+  );
+}
+
+#vc-spotify-info-wrapper,
+#vc-spotify-progress-bar,
+.vc-spotify-button-row,
+.vc-spotify-button,
+.wrapper_e131a9 {
+  position: relative;
+  z-index: 1;
+}
+
+/* song info */
+
+#vc-spotify-info-wrapper {
+  position: absolute !important;
+  top: 14px !important;
+  left: 28px !important;
+  right: 14px !important;
+  margin-left: 0 !important;
+  min-width: 0 !important;
+  max-width: calc(100% - 42px) !important;
+}
+
+#vc-spotify-titles {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+#vc-spotify-song-title {
+  color: var(--isc-song-title) !important;
+  font-family: "gg sans", var(--font-primary) !important;
+  text-shadow: hsl(0, 0%, 25%) 1px 1px;
+}
+
+#vc-spotify-song-title::before,
+#vc-spotify-song-title + p::before,
+#vc-spotify-song-title + p + p::before {
+  position: absolute;
+  margin-left: -17px;
+  padding: 7px;
+  content: "";
+  background-color: var(--isc-icon-color, white);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+#vc-spotify-song-title::before {
+  margin-top: 3px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/ISOUL22/rice/refs/heads/main/Vencord/assets/music-note.svg");
+}
+
+#vc-spotify-song-title + p::before {
+  margin-top: 0;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/ISOUL22/rice/refs/heads/main/Vencord/assets/user.svg");
+}
+
+#vc-spotify-song-title + p + p::before {
+  margin-top: 2px;
+  -webkit-mask-image: url("https://raw.githubusercontent.com/ISOUL22/rice/refs/heads/main/Vencord/assets/disc-alt.svg");
+}
+
+/* progress bar - always visible even on normal sidebar */
+
+#vc-spotify-progress-bar {
+  position: absolute !important;
+  left: 18px !important;
+  right: 18px !important;
+  bottom: 58px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+#vc-spotify-progress-bar .container__5a838 {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+#vc-spotify-player .bar_a562c8 {
+  background-color: hsla(0, 0%, 100%, 0.22) !important;
+}
+
+#vc-spotify-player .barFill_a562c8 {
+  background-color: var(--isc-progress-bar) !important;
+}
+
+#vc-spotify-progress-bar:hover .barFill_a562c8 {
+  background-color: var(--isc-progress-bar-hover) !important;
+}
+
+#vc-spotify-progress-bar .grabber_a562c8 {
+  visibility: hidden;
+  opacity: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  margin-left: -8px;
+  border: solid 2px hsla(0, 0%, 0%, 0.3);
+  background-color: var(--isc-progress-bar-hover) !important;
+  transition: opacity 0.1s ease;
+  will-change: opacity;
+}
+
+#vc-spotify-progress-bar:hover .grabber_a562c8 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.vc-spotify-progress-time {
+  display: none !important;
+}
+
+/* buttons - fixed for normal non-expanded sidebar */
+
+.vc-spotify-button-row {
+  position: absolute !important;
+  left: 10px !important;
+  right: 10px !important;
+  bottom: 15px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-evenly !important;
+
+  gap: 2px !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.vc-spotify-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  flex: 0 1 var(--isc-button-size) !important;
+  width: var(--isc-button-size) !important;
+  min-width: 26px !important;
+  max-width: var(--isc-button-size) !important;
+  height: 30px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 9px !important;
+
+  background-color: var(--isc-button-bg) !important;
+  color: var(--isc-button-icon) !important;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.vc-spotify-button:hover {
+  background-color: var(--isc-button-bg-hover) !important;
+  color: var(--isc-button-icon-hover) !important;
+}
+
+.vc-spotify-button-icon {
+  width: var(--isc-button-icon-size) !important;
+  height: var(--isc-button-icon-size) !important;
+  flex: 0 0 auto !important;
+}
+
+.vc-spotify-shuffle-on,
+.vc-spotify-repeat-context,
+.vc-spotify-repeat-track {
+  background-color: var(--isc-button-toggled-bg) !important;
+  color: var(--isc-button-toggled-icon) !important;
+}
+
+.vc-spotify-shuffle-on:hover,
+.vc-spotify-repeat-context:hover,
+.vc-spotify-repeat-track:hover {
+  background-color: var(--isc-button-toggled-bg-hover) !important;
+  color: var(--isc-button-toggled-icon-hover) !important;
+}
+
+.vc-spotify-shuffle path,
+.vc-spotify-repeat path {
+  display: none;
+}
+
+svg.vc-spotify-shuffle,
+svg.vc-spotify-repeat {
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  transform: translateZ(0);
+}
+
+svg.vc-spotify-shuffle {
+  -webkit-mask-image: url("https://raw.githubusercontent.com/ISOUL22/rice/refs/heads/main/Vencord/assets/shuffle.svg");
+  -webkit-mask-size: 22px 22px;
+}
+
+svg.vc-spotify-repeat {
+  -webkit-mask-image: url("https://raw.githubusercontent.com/ISOUL22/rice/refs/heads/main/Vencord/assets/loop.svg");
+  -webkit-mask-size: 20px 20px;
+}
+
+.vc-spotify-repeat-1 {
+  padding-right: 0 !important;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+/* full album art mode */
+
+@property --ics-full-album-art {
+  syntax: "*";
+  inherits: true;
+  initial-value: true;
+}
+
+@container body style(--ics-full-album-art: true) {
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) {
+    min-height: auto !important;
+    max-height: max-content !important;
+  }
+
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title {
+    font-size: 18px;
+  }
+
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) .vc-spotify-secondary-song-info {
+    font-size: 14px;
+  }
+
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title::before,
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title + p::before,
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title + p + p::before {
+    padding-left: 7px;
+  }
+
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title::before {
+    scale: 110%;
+    margin-top: 4px;
+  }
+
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title + p::before,
+  :is(section.panels__5e434, section[class*="panels_"]):has(#vc-spotify-player) #vc-spotify-song-title + p + p::before {
+    scale: 100%;
+    margin-top: 2px;
+  }
+}
+
+/* normal sidebar compact safety */
+
+@container isc-sidebar (max-width: 340px) {
+  #vc-spotify-player {
+    --isc-player-height: 255px;
+    --isc-button-size: 29px;
+    --isc-button-icon-size: 20px;
+  }
+
+  #vc-spotify-info-wrapper {
+    top: 12px !important;
+    left: 27px !important;
+    right: 12px !important;
+  }
+
+  #vc-spotify-song-title {
+    font-size: 16px !important;
+  }
+
+  .vc-spotify-secondary-song-info {
+    font-size: 13px !important;
+  }
+
+  #vc-spotify-progress-bar {
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 54px !important;
+  }
+
+  .vc-spotify-button-row {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 13px !important;
+  }
+}
+
+/* panel order */
+
+:is(section.panels__5e434, section[class*="panels_"]) .activityPanel__5e434 {
+  order: var(--ics-panel-order-activity);
+}
+
+:is(section.panels__5e434, section[class*="panels_"]) #vc-spotify-player {
+  order: var(--ics-panel-order-spotify) !important;
+}
+
+:is(section.panels__5e434, section[class*="panels_"]) .wrapper_e131a9 {
+  order: var(--ics-panel-order-voicechat);
+}
+
+:is(section.panels__5e434, section[class*="panels_"]) .container__37e49 {
+  order: var(--ics-panel-order-user);
+}
+
+/* base discord fixes */
+
+.panels__5e434 div.panel__5dec7.activityPanel__5e434,
+section[class*="panels_"] div[class*="activityPanel_"] {
+  background-color: transparent !important;
+}
+
+.panels__5e434 .container_e131a9,
+section[class*="panels_"] .container_e131a9 {
+  padding-top: 12px;
+}
+
+/* reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  #vc-spotify-player {
+    animation: none !important;
+    transform: translate3d(0, var(--isc-player-lift), 0);
+  }
+
+  #vc-spotify-progress-bar .grabber_a562c8,
+  .vc-spotify-button {
+    transition: none !important;
+  }
+}
+
+:root {
+  --server-tabs: true;
+  --dms-tabs: true;
+}
