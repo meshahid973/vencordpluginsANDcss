@@ -18,7 +18,6 @@ just my own plugins, css, and experiments <3
 | Image Ambience | plugin | adds a soft glow behind images |
 | Improved Spotify Controls | css | makes the spotify player look nicer |
 
-
 ## how to use css
 
 1. open **Vencord Settings**
