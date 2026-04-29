@@ -18,19 +18,5 @@ just my own plugins, css, and experiments <3
 | Image Ambience | plugin | adds a soft glow behind images |
 | Improved Spotify Controls | css | makes the spotify player look nicer |
 
-## how to use css
-
-1. open **Vencord Settings**
-2. go to **Themes**
-3. open **QuickCSS**
-4. paste the css
-5. restart discord if it looks weird
-
-## how to use userplugins
-
-these are for vencord dev / userplugin setups.
-
-put the plugin folder here:
-
-```txt
-Vencord/src/userplugins/
+oh yeah and I promise you these will always be maintained :D
+also some stuff is inspired by ideas I found or tested, but most of it is edited and changed for my own setup.
